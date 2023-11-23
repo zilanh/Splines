@@ -9,7 +9,7 @@ class Polynomial:
     def primitive(self):
         coefficients = self.coefficient_list
         degree = self.degree
-        primitive_coefficients = [coefficient / (degree+1-i) for i, coefficient in coefficients]
+        primitive_coefficients = [coefficient / (degree-i) for i, coefficient in enumerate(coefficients)] + [0]
         self.primitive = Polynomial(primitive_coefficients)
 
     def calculate(self, x):
@@ -18,12 +18,11 @@ class Polynomial:
             result += coefficient * x**(self.degree-i-1)
         return result
         
-
     # integrates a polynomial over [a,b]
     def integrate(self, a, b):
-        self.primitive(self)
+        self.primitive()
         return self.primitive.calculate(b) - self.primitive.calculate(a)
     
 P = Polynomial([1,2,1])
-print(P.calculate(-1), P.calculate(3))
+print(P.integrate(0,3))
 
